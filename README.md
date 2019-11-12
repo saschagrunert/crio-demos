@@ -12,7 +12,7 @@ repository:
 
 - A running Kubernetes cluster with CRI-O as configured container runtime
 - A working Kubeconfig to access that cluster in `$HOME/.kube/config`
-- A working [`crictl` configuration][1]
+- A working `crictl` binary and [configuration][1]
 
 [1]: https://github.com/kubernetes-sigs/cri-tools/blob/master/docs/crictl.md
 
