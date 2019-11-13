@@ -23,6 +23,7 @@ func main() {
 		{Name: "1-interaction", Aliases: []string{"1"}, Action: runs.Interaction},
 		{Name: "2-logging", Aliases: []string{"2"}, Action: runs.Logging},
 		{Name: "3-lifecycle", Aliases: []string{"3"}, Action: runs.LifeCycle},
+		{Name: "4-networking", Aliases: []string{"4"}, Action: runs.Networking},
 	}
 
 	if err := app.Run(os.Args); err != nil {

@@ -6,7 +6,7 @@ import (
 )
 
 func Logging(context *cli.Context) {
-	Prepare(
+	Run(
 		S(`sudo sed -i -E 's/(log_level = )(.*)/\1"info"/' /etc/crio/crio.conf`),
 		S("sudo kill -HUP $(pgrep crio)"),
 	)

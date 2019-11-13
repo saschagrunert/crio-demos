@@ -6,8 +6,10 @@ import (
 )
 
 func LifeCycle(context *cli.Context) {
-	Prepare(
+	Run(
 		S("kubectl delete events --all"),
+		S(`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`),
+		S("sudo kill -HUP $(pgrep crio)"),
 	)
 
 	d := New(

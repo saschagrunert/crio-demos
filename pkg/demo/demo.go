@@ -40,14 +40,14 @@ func (d *Demo) Run() {
 	}
 }
 
-func Prepare(commands ...[]string) {
+func Run(commands ...[]string) {
 	for _, c := range commands {
 		command := strings.Join(c, " ")
 		cmd := exec.Command("bash", "-c", command)
 		cmd.Stderr = nil
 		cmd.Stdout = nil
 		if err := cmd.Run(); err != nil {
-			logrus.Fatalf("Prepare command execution failed: %v", err)
+			logrus.Fatalf("Command execution failed: %v", err)
 		}
 	}
 }
