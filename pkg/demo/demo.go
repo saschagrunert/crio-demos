@@ -24,7 +24,11 @@ func New(title string) *Demo {
 	return &Demo{}
 }
 
-func (d *Demo) Step(text []string, command ...string) {
+func X(x ...string) []string {
+	return x
+}
+
+func (d *Demo) Step(text []string, command []string) {
 	d.steps = append(d.steps, step{text, command})
 }
 
