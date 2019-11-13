@@ -64,15 +64,12 @@ func (s *step) echo(current, max int) {
 
 func (s *step) execute() {
 	joinedCommand := strings.Join(s.command, " ")
-	args := strings.Fields(joinedCommand)
-	cmd := exec.Command(s.command[0])
-	if len(args) > 1 {
-		cmd = exec.Command(args[0], args[1:]...)
-	}
+	cmd := exec.Command("bash", "-c", joinedCommand)
+
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 
-	color.Green.Printf("> %s", joinedCommand)
+	color.Green.Printf("> %s", strings.Join(s.command, " \\\n    "))
 	waitEnter()
 
 	if err := cmd.Run(); err != nil {

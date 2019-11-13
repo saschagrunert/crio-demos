@@ -6,7 +6,7 @@ import (
 )
 
 func Interaction(context *cli.Context) {
-	d := New("Demo 1 - Interacting with CRI-O")
+	d := New("Demo 1 - Basic interactions with CRI-O")
 
 	d.Step(X(
 		"The recommended way of running CRI-O is as a systemd unit.",
@@ -38,6 +38,21 @@ func Interaction(context *cli.Context) {
 		"Or the containers",
 	), X(
 		"sudo crictl ps -a",
+	))
+
+	d.Step(X(
+		"All crictl calls result in direct gRPC request to CRI-O",
+		"For example, `crictl ps` results in a `ListContainersRequest`.",
+	), X(
+		"sudo journalctl -u crio --since '1 minute ago' |",
+		"grep -Po '.*ListContainers(Request|Response){.*?}'",
+	))
+
+	d.Step(X(
+		"It looks like that the kubelet syncs periodically with CRI-O.",
+		"Let's check that",
+	), X(
+		"sudo journalctl -fu crio",
 	))
 
 	d.Run()
