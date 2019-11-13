@@ -32,22 +32,34 @@ A simple demo may look like this in source code:
 package some_package
 
 import (
-	"github.com/saschagrunert/crio-demos/pkg/demo"
-	"github.com/urfave/cli"
+    . "github.com/saschagrunert/crio-demos/pkg/demo"
+    "github.com/urfave/cli"
 )
 
 func Demo(context *cli.Context) {
-	d := demo.New("My demo")
+    // Preparation steps won't be printed, they're just there
+    // to setup a pre-defined environment
+    Prepare(
+        S("echo Preparing..."),
+        S("echo Hello"),
+    )
 
-	d.Step([]string{
-		"Possible multi-line",
-		"description text of the step",
-	},
-		// Command of the step
-		"echo Hello World",
-	)
+    // A new demo has a title printed at the beginning of the run
+    d := New(
+        "My Demo",
+        "This is just a demo",
+    )
 
-	d.Run()
+    // A demo can consists of multiple steps, each step has a description and
+    // a command to be executed.
+    d.Step(S(
+        "This is the description of the step,",
+        "which supports multiple lines, too",
+    ), S(
+        "echo Hello world",
+    ))
+
+    d.Run()
 }
 ```
 
