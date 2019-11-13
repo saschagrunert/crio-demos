@@ -12,7 +12,7 @@ func Logging(context *cli.Context) {
 	)
 
 	d := New(
-		"Demo 2 - Logging and configuration reload",
+		"Logging and configuration reload",
 		"This demo shows how to configure CRI-O logging and",
 		"reload the configuration during runtime",
 	)

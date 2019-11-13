@@ -23,7 +23,9 @@ func main() {
 		{Name: "1-interaction", Aliases: []string{"1"}, Action: runs.Interaction},
 		{Name: "2-logging", Aliases: []string{"2"}, Action: runs.Logging},
 		{Name: "3-lifecycle", Aliases: []string{"3"}, Action: runs.LifeCycle},
-		{Name: "4-networking", Aliases: []string{"4"}, Action: runs.Networking},
+		{Name: "4-port-forward", Aliases: []string{"4"}, Action: runs.PortForward},
+		{Name: "5-recovering", Aliases: []string{"5"}, Action: runs.Recovering},
+		{Name: "6-networking", Aliases: []string{"6"}, Action: runs.Networking},
 	}
 
 	if err := app.Run(os.Args); err != nil {

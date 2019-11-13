@@ -12,7 +12,7 @@ func Interaction(context *cli.Context) {
 	)
 
 	d := New(
-		"Demo 1 - Basic interactions with CRI-O",
+		"Basic interactions with CRI-O",
 		"This demo shows basic interactions with CRI-O and",
 		"beteen the kubelet and CRI-O.",
 	)

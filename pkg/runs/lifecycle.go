@@ -13,7 +13,7 @@ func LifeCycle(context *cli.Context) {
 	)
 
 	d := New(
-		"Demo 3 - Life Cycle of a Kubernetes workload",
+		"Life Cycle of a Kubernetes workload",
 		"This demo shows how CRI-O ensures the containers life-cycle",
 	)
 

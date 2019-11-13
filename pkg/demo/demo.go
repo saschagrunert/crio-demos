@@ -46,9 +46,7 @@ func Run(commands ...[]string) {
 		cmd := exec.Command("bash", "-c", command)
 		cmd.Stderr = nil
 		cmd.Stdout = nil
-		if err := cmd.Run(); err != nil {
-			logrus.Fatalf("Command execution failed: %v", err)
-		}
+		_ = cmd.Run()
 	}
 }
 

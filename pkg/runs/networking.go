@@ -11,9 +11,7 @@ func Networking(context *cli.Context) {
 		S("sudo kill -HUP $(pgrep crio)"),
 	)
 
-	d := New(
-		"Demo 4 - Networking",
-	)
+	d := New("Networking")
 
 	d.Step(S(
 		"If not configured, the default location for CRI-O to look for",

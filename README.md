@@ -20,9 +20,12 @@ repository:
 
 ## Contents
 
-1. [Basic interactions with CRI-O](pkg/runs/1_interaction.go)
-2. [Logging and live configuration reload](pkg/runs/2_logging_live_reload.go)
-3. [Life Cycle of a Kubernetes workload](pkg/runs/3_lifecycle.go)
+1. [Basic interactions with CRI-O](pkg/runs/interaction.go)
+2. [Logging and live configuration reload](pkg/runs/logging_live_reload.go)
+3. [Life Cycle of a Kubernetes workload](pkg/runs/lifecycle.go)
+4. [Port Forward](pkg/runs/portforward.go)
+5. [Recovering](pkg/runs/recovering.go)
+6. [Networking](pkg/runs/networking.go)
 
 ## How it works
 
@@ -45,7 +48,7 @@ import (
 func Demo(context *cli.Context) {
     // Preparation steps won't be printed, they're just there
     // to setup a pre-defined environment
-    Prepare(
+    Run(
         S("echo Preparing..."),
         S("echo Hello"),
     )
