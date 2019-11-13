@@ -29,7 +29,7 @@ func Recovering(context *cli.Context) {
 	d.Step(S(
 		"Then the container monitor conmon will notice that and the workload gets removed",
 	), S(
-		"sudo journalctl -u crio --since '1 minute ago' | grep -A1 'exited with status'",
+		"sudo journalctl -u crio --since '1 minute ago' | grep -A1 exited",
 	))
 
 	d.Step(S(
