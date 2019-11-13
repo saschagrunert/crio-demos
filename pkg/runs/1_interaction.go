@@ -6,52 +6,56 @@ import (
 )
 
 func Interaction(context *cli.Context) {
-	d := New("Demo 1 - Basic interactions with CRI-O")
+	d := New(
+		"Demo 1 - Basic interactions with CRI-O",
+		"This demo shows basic interactions with CRI-O and",
+		"beteen the kubelet and CRI-O.",
+	)
 
-	d.Step(X(
+	d.Step(S(
 		"The recommended way of running CRI-O is as a systemd unit.",
 		"Let's verify that CRI-O is running as expected",
-	), X(
+	), S(
 		"sudo systemctl --no-pager status crio",
 	))
 
-	d.Step(X(
+	d.Step(S(
 		"If CRI-O is up and running, then a kubelet instance can",
 		"be configured to run CRI-O",
-	), X(
+	), S(
 		"sudo systemctl --no-pager status kubelet",
 	))
 
-	d.Step(X(
+	d.Step(S(
 		"We should be now able to interact with CRI-O via `crictl`",
-	), X(
+	), S(
 		"sudo crictl version",
 	))
 
-	d.Step(X(
+	d.Step(S(
 		"We can list the pods and their status",
-	), X(
+	), S(
 		"sudo crictl pods",
 	))
 
-	d.Step(X(
+	d.Step(S(
 		"Or the containers",
-	), X(
+	), S(
 		"sudo crictl ps -a",
 	))
 
-	d.Step(X(
+	d.Step(S(
 		"All crictl calls result in direct gRPC request to CRI-O",
 		"For example, `crictl ps` results in a `ListContainersRequest`.",
-	), X(
+	), S(
 		"sudo journalctl -u crio --since '1 minute ago' |",
 		"grep -Po '.*ListContainers(Request|Response){.*?}'",
 	))
 
-	d.Step(X(
+	d.Step(S(
 		"It looks like that the kubelet syncs periodically with CRI-O.",
 		"Let's check that",
-	), X(
+	), S(
 		"sudo journalctl -fu crio",
 	))
 

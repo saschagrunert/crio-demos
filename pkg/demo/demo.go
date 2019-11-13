@@ -19,13 +19,15 @@ type step struct {
 	text, command []string
 }
 
-func New(title string) *Demo {
-	color.Cyan.Printf("# %s\n", title)
+func New(description ...string) *Demo {
+	for _, d := range description {
+		color.Cyan.Printf("# %s\n", d)
+	}
 	return &Demo{}
 }
 
-func X(x ...string) []string {
-	return x
+func S(s ...string) []string {
+	return s
 }
 
 func (d *Demo) Step(text []string, command []string) {
@@ -35,6 +37,18 @@ func (d *Demo) Step(text []string, command []string) {
 func (d *Demo) Run() {
 	for i, step := range d.steps {
 		step.run(i+1, len(d.steps))
+	}
+}
+
+func Prepare(commands ...[]string) {
+	for _, c := range commands {
+		command := strings.Join(c, " ")
+		cmd := exec.Command("bash", "-c", command)
+		cmd.Stderr = nil
+		cmd.Stdout = nil
+		if err := cmd.Run(); err != nil {
+			logrus.Fatalf("Prepare command execution failed: %v", err)
+		}
 	}
 }
 

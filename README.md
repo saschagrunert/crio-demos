@@ -10,7 +10,9 @@ container runtime [CRI-O][0].
 The following requirements needs to be fulfilled to run the demos inside this
 repository:
 
-- A running Kubernetes cluster with CRI-O as configured container runtime
+- A running Kubernetes cluster (via systemd units) with CRI-O as configured
+  container runtime
+  - CRI-O `log_level = "debug"`
 - A working Kubeconfig to access that cluster in `$HOME/.kube/config`
 - A working `crictl` binary and [configuration][1]
 
