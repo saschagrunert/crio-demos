@@ -20,7 +20,7 @@ type step struct {
 }
 
 func New(title string) *Demo {
-	color.Cyan.Printf("# %s", title)
+	color.Cyan.Printf("# %s\n", title)
 	return &Demo{}
 }
 
@@ -44,13 +44,13 @@ func (s *step) run(current, max int) {
 }
 
 func (s *step) echo(current, max int) {
-	prepared := []string{"\n"}
+	prepared := []string{""}
 	for i, x := range s.text {
 		if i == len(s.text)-1 {
 			prepared = append(
 				prepared,
 				color.White.Darken().Sprintf(
-					"# %s [%d/%d]:\n\n",
+					"# %s [%d/%d]:\n",
 					x, current, max,
 				),
 			)
@@ -72,8 +72,7 @@ func (s *step) execute() {
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 
-	color.Green.Print("> ")
-	print(joinedCommand)
+	color.Green.Printf("> %s", joinedCommand)
 	waitEnter()
 
 	if err := cmd.Run(); err != nil {
