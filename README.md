@@ -18,6 +18,11 @@ repository:
 
 [1]: https://github.com/kubernetes-sigs/cri-tools/blob/master/docs/crictl.md
 
+## Contents
+
+1. [Basic interactions with CRI-O](pkg/runs/1_interaction.go)
+2. [Logging and live configuration reload](pkg/runs/2_logging_live_reload.go)
+
 ## How it works
 
 `crio-demos` is a golang based command line application which contains
@@ -62,8 +67,3 @@ func Demo(context *cli.Context) {
     d.Run()
 }
 ```
-
-## Contents
-
-1. [Basic interactions with CRI-O](pkg/runs/1_interaction.go)
-2. [Logging and live configuration reload](pkg/runs/2_logging_live_reload.go)
