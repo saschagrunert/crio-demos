@@ -53,4 +53,5 @@ func Demo(context *cli.Context) {
 
 ## Contents
 
-TBD
+1. [Basic interactions with CRI-O](pkg/runs/1_interaction.go)
+2. [Logging and live configuration reload](pkg/runs/2_logging_live_reload.go)
