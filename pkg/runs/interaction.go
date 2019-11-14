@@ -56,7 +56,7 @@ func Interaction(context *cli.Context) {
 		"It looks like that the kubelet syncs periodically with CRI-O.",
 		"Let's check that",
 	), S(
-		"sudo journalctl -fu crio",
+		"sudo journalctl -u crio --no-pager --since '10 seconds ago'",
 	))
 
 	d.Run()

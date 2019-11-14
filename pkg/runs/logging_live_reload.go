@@ -50,7 +50,7 @@ func Logging(context *cli.Context) {
 	d.Step(S(
 		"CRI-O now logs every request and response as seen in the first demo",
 	), S(
-		"sudo journalctl -fu crio",
+		"sudo journalctl -u crio --no-pager --since '10 seconds ago'",
 	))
 
 	d.Run()
