@@ -19,7 +19,7 @@ func Logging(ctx *cli.Context) {
 		"The basic configuration file of CRI-O is available in",
 		"/etc/crio/crio.conf",
 	), S(
-		"less /etc/crio/crio.conf",
+		"cat /etc/crio/crio.conf",
 	))
 
 	d.Step(S(

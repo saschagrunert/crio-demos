@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"os/signal"
 
 	"github.com/saschagrunert/crio-demos/pkg/runs"
 	"github.com/saschagrunert/crio-demos/pkg/setup"
@@ -24,11 +25,32 @@ func main() {
 	app.After = setup.After
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
-			Name:  "auto",
+			Name:  "auto, a",
 			Usage: "run the demo in automatic mode",
+		},
+		cli.BoolFlag{
+			Name:  "continuously, c",
+			Usage: "run the demo continuously",
 		},
 	}
 	app.Commands = []cli.Command{
+		{Name: "all", Aliases: []string{"a"}, Action: func(ctx *cli.Context) {
+			run := func() {
+				runs.Interaction(ctx)
+				runs.Logging(ctx)
+				runs.LifeCycle(ctx)
+				runs.PortForward(ctx)
+				runs.Recovering(ctx)
+				runs.Networking(ctx)
+			}
+			if ctx.GlobalBool("continuously") {
+				for {
+					run()
+				}
+			} else {
+				run()
+			}
+		}},
 		{Name: "1-interaction", Aliases: []string{"1"}, Action: runs.Interaction},
 		{Name: "2-logging", Aliases: []string{"2"}, Action: runs.Logging},
 		{Name: "3-lifecycle", Aliases: []string{"3"}, Action: runs.LifeCycle},
@@ -36,6 +58,16 @@ func main() {
 		{Name: "5-recovering", Aliases: []string{"5"}, Action: runs.Recovering},
 		{Name: "6-networking", Aliases: []string{"6"}, Action: runs.Networking},
 	}
+
+	// Catch interrupts
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	go func() {
+		for range c {
+			_ = setup.After(nil)
+			os.Exit(0)
+		}
+	}()
 
 	if err := app.Run(os.Args); err != nil {
 		os.Exit(1)

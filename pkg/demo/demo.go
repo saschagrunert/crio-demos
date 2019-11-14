@@ -37,8 +37,17 @@ func (d *Demo) Step(text []string, command []string) {
 }
 
 func (d *Demo) Run(ctx *cli.Context) {
-	for i, step := range d.steps {
-		step.run(i+1, len(d.steps), ctx.GlobalBool("auto"))
+	run := func() {
+		for i, step := range d.steps {
+			step.run(i+1, len(d.steps), ctx.GlobalBool("auto"))
+		}
+	}
+	if ctx.GlobalBool("continuously") {
+		for {
+			run()
+		}
+	} else {
+		run()
 	}
 }
 

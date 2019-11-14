@@ -20,6 +20,9 @@ func Before(ctx *cli.Context) error {
 
 		// Remove all events
 		S("kubectl delete events --all"),
+
+		// Remove dead pods
+		S("sudo crictl rmp -f $(sudo crictl pods -s NotReady -q)"),
 	)
 	cleanup()
 	return nil
