@@ -5,7 +5,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func Recovering(context *cli.Context) {
+func Recovering(ctx *cli.Context) {
 	d := New("Recovering Workloads")
 
 	d.Step(S(
@@ -33,5 +33,5 @@ func Recovering(context *cli.Context) {
 		"sudo journalctl -u kubelet --since '1 minute ago' | grep -A1 ContainerDied",
 	))
 
-	d.Run()
+	d.Run(ctx)
 }

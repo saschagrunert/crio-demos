@@ -6,9 +6,11 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
 	"github.com/gookit/color"
 	"github.com/sirupsen/logrus"
+	"github.com/urfave/cli"
 )
 
 type Demo struct {
@@ -34,9 +36,9 @@ func (d *Demo) Step(text []string, command []string) {
 	d.steps = append(d.steps, step{text, command})
 }
 
-func (d *Demo) Run() {
+func (d *Demo) Run(ctx *cli.Context) {
 	for i, step := range d.steps {
-		step.run(i+1, len(d.steps))
+		step.run(i+1, len(d.steps), ctx.GlobalBool("auto"))
 	}
 }
 
@@ -50,9 +52,9 @@ func Ensure(commands ...[]string) {
 	}
 }
 
-func (s *step) run(current, max int) {
+func (s *step) run(current, max int, auto bool) {
 	s.echo(current, max)
-	s.execute()
+	s.execute(auto)
 }
 
 func (s *step) echo(current, max int) {
@@ -74,7 +76,7 @@ func (s *step) echo(current, max int) {
 	print(prepared...)
 }
 
-func (s *step) execute() {
+func (s *step) execute(auto bool) {
 	joinedCommand := strings.Join(s.command, " ")
 	cmd := exec.Command("bash", "-c", joinedCommand)
 
@@ -82,7 +84,11 @@ func (s *step) execute() {
 	cmd.Stdout = os.Stdout
 
 	color.Green.Printf("> %s", strings.Join(s.command, " \\\n    "))
-	waitEnter()
+	if auto {
+		time.Sleep(3 * time.Second)
+	} else {
+		waitEnter()
+	}
 
 	if err := cmd.Run(); err != nil {
 		logrus.Fatalf("Command execution failed: %v", err)

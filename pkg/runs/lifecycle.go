@@ -5,7 +5,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func LifeCycle(context *cli.Context) {
+func LifeCycle(ctx *cli.Context) {
 	d := New(
 		"Life Cycle of a Kubernetes workload",
 		"This demo shows how CRI-O ensures the containers life-cycle",
@@ -112,5 +112,5 @@ func LifeCycle(context *cli.Context) {
 		"sudo journalctl -u crio --since '2 minute ago' | grep -oE '(Stop|Remove).*'",
 	))
 
-	d.Run()
+	d.Run(ctx)
 }

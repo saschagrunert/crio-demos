@@ -6,7 +6,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func Logging(context *cli.Context) {
+func Logging(ctx *cli.Context) {
 	setup.EnsureInfoLogLevel()
 
 	d := New(
@@ -53,5 +53,5 @@ func Logging(context *cli.Context) {
 		"sudo journalctl -u crio --no-pager --since '10 seconds ago'",
 	))
 
-	d.Run()
+	d.Run(ctx)
 }

@@ -22,6 +22,12 @@ func main() {
 	app.UseShortOptionHandling = true
 	app.Before = setup.Before
 	app.After = setup.After
+	app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name:  "auto",
+			Usage: "run the demo in automatic mode",
+		},
+	}
 	app.Commands = []cli.Command{
 		{Name: "1-interaction", Aliases: []string{"1"}, Action: runs.Interaction},
 		{Name: "2-logging", Aliases: []string{"2"}, Action: runs.Logging},

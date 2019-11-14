@@ -5,7 +5,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func PortForward(context *cli.Context) {
+func PortForward(ctx *cli.Context) {
 	d := New("Port Forwarding")
 
 	d.Step(S(
@@ -41,5 +41,5 @@ func PortForward(context *cli.Context) {
 		`sed -n -E 's;.*executing port forwarding command: (.*80).*;\1;p')`,
 	))
 
-	d.Run()
+	d.Run(ctx)
 }

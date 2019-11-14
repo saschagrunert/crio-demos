@@ -6,7 +6,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func Networking(context *cli.Context) {
+func Networking(ctx *cli.Context) {
 	setup.EnsureInfoLogLevel()
 
 	d := New("Networking")
@@ -66,5 +66,5 @@ func Networking(context *cli.Context) {
 		"grep -B2 manage_network_ns_lifecycle /etc/crio/crio.conf",
 	))
 
-	d.Run()
+	d.Run(ctx)
 }

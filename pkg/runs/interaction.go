@@ -5,7 +5,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-func Interaction(context *cli.Context) {
+func Interaction(ctx *cli.Context) {
 	d := New(
 		"Basic interactions with CRI-O",
 		"This demo shows basic interactions with CRI-O and",
@@ -59,5 +59,5 @@ func Interaction(context *cli.Context) {
 		"sudo journalctl -u crio --no-pager --since '10 seconds ago'",
 	))
 
-	d.Run()
+	d.Run(ctx)
 }
