@@ -27,7 +27,7 @@ func main() {
 		cli.BoolFlag{
 			Name: "auto, a",
 			Usage: "run the demo in automatic mode, " +
-				"where every step gets executed automatically after 5 seconds",
+				"where every step gets executed automatically after some seconds",
 		},
 		cli.BoolFlag{
 			Name:  "continuously, c",

@@ -3,6 +3,7 @@ package demo
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 	"os/exec"
 	"strings"
@@ -62,6 +63,7 @@ func Ensure(commands ...[]string) {
 }
 
 func (s *step) run(current, max int, auto bool) {
+	waitOrSleep(auto)
 	s.echo(current, max)
 	s.execute(auto)
 }
@@ -92,22 +94,28 @@ func (s *step) execute(auto bool) {
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 
-	color.Green.Printf("> %s", strings.Join(s.command, " \\\n    "))
-	if auto {
-		time.Sleep(5 * time.Second)
-	} else {
-		waitEnter()
-	}
-
+	cmdString := color.Green.Sprintf("> %s", strings.Join(s.command, " \\\n    "))
+	print(cmdString)
+	waitOrSleep(auto)
 	_ = cmd.Run()
 }
 
 func print(msg ...string) {
-	fmt.Print(strings.Join(msg, "\n"))
+	for _, m := range msg {
+		for _, c := range m {
+			time.Sleep(time.Duration(rand.Intn(40)) * time.Millisecond)
+			fmt.Printf("%c", c)
+		}
+		println()
+	}
 }
 
-func waitEnter() {
-	if _, err := bufio.NewReader(os.Stdin).ReadBytes('\n'); err != nil {
-		logrus.Fatalf("Unable to read input: %v", err)
+func waitOrSleep(auto bool) {
+	if auto {
+		time.Sleep(3 * time.Second)
+	} else {
+		if _, err := bufio.NewReader(os.Stdin).ReadBytes('\n'); err != nil {
+			logrus.Fatalf("Unable to read input: %v", err)
+		}
 	}
 }

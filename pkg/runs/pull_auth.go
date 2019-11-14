@@ -45,5 +45,13 @@ func PullAuth(ctx *cli.Context) {
 		"sudo crictl pull quay.io/crio/private-image",
 	))
 
+	d.Step(S(
+		"We can see that the containers/image library takes care of the authentication",
+		"Kubernetes is not invloved in the authentication at all in this demo",
+	), S(
+		"sudo journalctl -u crio --since '1 minute ago' |",
+		"grep -oP '(PullImageRequest|GET).*'",
+	))
+
 	d.Run(ctx)
 }
