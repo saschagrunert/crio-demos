@@ -6,11 +6,6 @@ import (
 )
 
 func PortForward(context *cli.Context) {
-	Run(
-		S(`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`),
-		S("sudo kill -HUP $(pgrep crio)"),
-	)
-
 	d := New("Port Forwarding")
 
 	d.Step(S(
@@ -46,9 +41,4 @@ func PortForward(context *cli.Context) {
 	))
 
 	d.Run()
-
-	Run(
-		S("sudo pkill kubectl"),
-		S("kubectl delete pod nginx"),
-	)
 }

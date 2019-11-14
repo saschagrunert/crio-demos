@@ -6,11 +6,6 @@ import (
 )
 
 func Interaction(context *cli.Context) {
-	Run(
-		S(`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`),
-		S("sudo kill -HUP $(pgrep crio)"),
-	)
-
 	d := New(
 		"Basic interactions with CRI-O",
 		"This demo shows basic interactions with CRI-O and",

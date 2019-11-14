@@ -6,12 +6,6 @@ import (
 )
 
 func Recovering(context *cli.Context) {
-	Run(
-		S("kubectl delete events --all"),
-		S(`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`),
-		S("sudo kill -HUP $(pgrep crio)"),
-	)
-
 	d := New("Recovering Workloads")
 
 	d.Step(S(
@@ -39,6 +33,4 @@ func Recovering(context *cli.Context) {
 	))
 
 	d.Run()
-
-	Run(S("kubectl delete deploy nginx"))
 }

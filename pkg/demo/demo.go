@@ -40,7 +40,7 @@ func (d *Demo) Run() {
 	}
 }
 
-func Run(commands ...[]string) {
+func Ensure(commands ...[]string) {
 	for _, c := range commands {
 		command := strings.Join(c, " ")
 		cmd := exec.Command("bash", "-c", command)

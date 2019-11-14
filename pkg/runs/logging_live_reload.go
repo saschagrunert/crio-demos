@@ -2,14 +2,12 @@ package runs
 
 import (
 	. "github.com/saschagrunert/crio-demos/pkg/demo"
+	"github.com/saschagrunert/crio-demos/pkg/setup"
 	"github.com/urfave/cli"
 )
 
 func Logging(context *cli.Context) {
-	Run(
-		S(`sudo sed -i -E 's/(log_level = )(.*)/\1"info"/' /etc/crio/crio.conf`),
-		S("sudo kill -HUP $(pgrep crio)"),
-	)
+	setup.EnsureInfoLogLevel()
 
 	d := New(
 		"Logging and configuration reload",

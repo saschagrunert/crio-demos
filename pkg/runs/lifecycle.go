@@ -6,12 +6,6 @@ import (
 )
 
 func LifeCycle(context *cli.Context) {
-	Run(
-		S("kubectl delete events --all"),
-		S(`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`),
-		S("sudo kill -HUP $(pgrep crio)"),
-	)
-
 	d := New(
 		"Life Cycle of a Kubernetes workload",
 		"This demo shows how CRI-O ensures the containers life-cycle",
