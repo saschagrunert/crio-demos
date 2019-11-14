@@ -6,7 +6,10 @@ import (
 )
 
 func PortForward(ctx *cli.Context) {
-	d := New("Port Forwarding")
+	d := New(
+		"Port Forwarding",
+		"This demo shows how port forwaring works in CRI-O",
+	)
 
 	d.Step(S(
 		"First, let’s create a workload which we want to access",

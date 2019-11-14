@@ -6,7 +6,10 @@ import (
 )
 
 func Recovering(ctx *cli.Context) {
-	d := New("Recovering Workloads")
+	d := New(
+		"Recovering Workloads",
+		"This demo shows what happens if a workload unexpectedly stops",
+	)
 
 	d.Step(S(
 		"Let’s start with a fresh nginx deployment",

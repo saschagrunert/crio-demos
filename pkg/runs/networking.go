@@ -9,7 +9,10 @@ import (
 func Networking(ctx *cli.Context) {
 	setup.EnsureInfoLogLevel()
 
-	d := New("Networking")
+	d := New(
+		"Networking",
+		"This demo shows how the basic networking works in CRI-O",
+	)
 
 	d.Step(S(
 		"If not configured, the default location for CRI-O to look for",

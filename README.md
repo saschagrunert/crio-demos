@@ -32,6 +32,9 @@ repository:
 4. [Port Forward](pkg/runs/portforward.go)
 5. [Recovering](pkg/runs/recovering.go)
 6. [Networking](pkg/runs/networking.go)
+7. [Pull Auth](pkg/runs/pull_auth.go)
+8. [Registries](pkg/runs/registries.go)
+9. [Registry Mirrors](pkg/runs/registry_mirrors.go)
 
 ## How it works
 

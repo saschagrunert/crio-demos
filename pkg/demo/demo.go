@@ -69,7 +69,7 @@ func (s *step) run(current, max int, auto bool) {
 }
 
 func (s *step) echo(current, max int) {
-	prepared := []string{""}
+	prepared := []string{" "}
 	for i, x := range s.text {
 		if i == len(s.text)-1 {
 			prepared = append(
@@ -114,8 +114,11 @@ func waitOrSleep(auto bool) {
 	if auto {
 		time.Sleep(3 * time.Second)
 	} else {
+		fmt.Print("…")
 		if _, err := bufio.NewReader(os.Stdin).ReadBytes('\n'); err != nil {
 			logrus.Fatalf("Unable to read input: %v", err)
 		}
+		// Move cursor up again
+		fmt.Printf("\x1b[1A")
 	}
 }

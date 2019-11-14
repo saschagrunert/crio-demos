@@ -35,9 +35,10 @@ func Logging(ctx *cli.Context) {
 	))
 
 	d.Step(S(
-		"To reload CRI-O, we have to send a SIGHUP (hangup) to the process",
+		"To reload CRI-O, we have to send a SIGHUP (hangup) to the process.",
+		"This can be done via `systemctl reload` for your convenience.",
 	), S(
-		"sudo kill -HUP $(pgrep crio)",
+		"sudo systemctl reload crio",
 	))
 
 	d.Step(S(

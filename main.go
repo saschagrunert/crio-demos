@@ -59,6 +59,8 @@ func main() {
 		{Name: "5-recovering", Aliases: []string{"5"}, Action: runs.Recovering},
 		{Name: "6-networking", Aliases: []string{"6"}, Action: runs.Networking},
 		{Name: "7-pull-auth", Aliases: []string{"7"}, Action: runs.PullAuth},
+		{Name: "8-registries", Aliases: []string{"8"}, Action: runs.Registries},
+		{Name: "9-registry-mirrors", Aliases: []string{"9"}, Action: runs.RegistryMirrors},
 	}
 
 	// Catch interrupts

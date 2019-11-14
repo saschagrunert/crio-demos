@@ -38,5 +38,12 @@ func cleanup() {
 		S("sudo pkill kubectl"),
 		S("kubectl delete pod nginx alpine"),
 		S("kubectl delete deploy nginx"),
+		S("sudo crictl rmi hello-world"),
+		S(
+			"[ -f /etc/containers/registries.conf.bak ] &&",
+			"sudo mv /etc/containers/registries.conf.bak /etc/containers/registries.conf",
+		),
+		S("sudo systemctl reload crio"),
+		S("podman stop registry"),
 	)
 }

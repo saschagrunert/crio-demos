@@ -20,7 +20,7 @@ func PullAuth(ctx *cli.Context) {
 	d.Step(S(
 		"With the default configuration, CRI-O is not able to pull private images",
 	), S(
-		"sudo crictl pull quay.io/crio/private-image",
+		"sudo crictl -D pull quay.io/crio/private-image",
 	))
 
 	d.Step(S(
