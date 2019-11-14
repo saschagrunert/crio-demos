@@ -11,7 +11,8 @@ func PortForward(context *cli.Context) {
 	d.Step(S(
 		"First, let’s create a workload which we want to access",
 	), S(
-		"kubectl run --generator=run-pod/v1 --image=nginx nginx",
+		"kubectl run --generator=run-pod/v1 --image=nginx nginx &&",
+		"kubectl wait pod/nginx --for=condition=ready",
 	))
 
 	d.Step(S(

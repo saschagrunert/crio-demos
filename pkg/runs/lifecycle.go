@@ -16,7 +16,8 @@ func LifeCycle(context *cli.Context) {
 		"First, let’s create a new pod printing out the date every 2 seconds",
 	), S(
 		"kubectl run --generator=run-pod/v1 --image=alpine alpine",
-		"-- sh -c 'while true; do date; sleep 2; done'",
+		"-- sh -c 'while true; do date; sleep 2; done' &&",
+		"kubectl wait pod/alpine --for=condition=ready",
 	))
 
 	d.Step(S(

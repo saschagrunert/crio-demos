@@ -12,7 +12,13 @@ repository:
 
 - A running Kubernetes cluster (via systemd units) with CRI-O as configured
   container runtime
-  - CRI-O `log_level = "debug"`
+  - CRI-O configuration:
+    ```toml
+    log_level = "debug"
+    cgroup_manager = "systemd"
+    conmon_cgroup = "system.slice"
+    ```
+  - Kubelet should be started with: `-v=2 --cgroup-driver=systemd`
 - A working Kubeconfig to access that cluster in `$HOME/.kube/config`
 - A working `crictl` binary and [configuration][1]
 

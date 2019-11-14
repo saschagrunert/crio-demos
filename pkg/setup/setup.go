@@ -21,14 +21,19 @@ func Before(ctx *cli.Context) error {
 		// Remove all events
 		S("kubectl delete events --all"),
 	)
+	cleanup()
 	return nil
 }
 
 func After(ctx *cli.Context) error {
+	cleanup()
+	return nil
+}
+
+func cleanup() {
 	Ensure(
 		S("sudo pkill kubectl"),
 		S("kubectl delete pod nginx alpine"),
 		S("kubectl delete deploy nginx"),
 	)
-	return nil
 }
