@@ -25,8 +25,9 @@ func main() {
 	app.After = setup.After
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
-			Name:  "auto, a",
-			Usage: "run the demo in automatic mode",
+			Name: "auto, a",
+			Usage: "run the demo in automatic mode, " +
+				"where every step gets executed automatically after 5 seconds",
 		},
 		cli.BoolFlag{
 			Name:  "continuously, c",
@@ -57,6 +58,7 @@ func main() {
 		{Name: "4-port-forward", Aliases: []string{"4"}, Action: runs.PortForward},
 		{Name: "5-recovering", Aliases: []string{"5"}, Action: runs.Recovering},
 		{Name: "6-networking", Aliases: []string{"6"}, Action: runs.Networking},
+		{Name: "7-pull-auth", Aliases: []string{"7"}, Action: runs.PullAuth},
 	}
 
 	// Catch interrupts

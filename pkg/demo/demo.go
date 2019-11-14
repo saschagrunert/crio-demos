@@ -94,14 +94,12 @@ func (s *step) execute(auto bool) {
 
 	color.Green.Printf("> %s", strings.Join(s.command, " \\\n    "))
 	if auto {
-		time.Sleep(3 * time.Second)
+		time.Sleep(5 * time.Second)
 	} else {
 		waitEnter()
 	}
 
-	if err := cmd.Run(); err != nil {
-		logrus.Fatalf("Command execution failed: %v", err)
-	}
+	_ = cmd.Run()
 }
 
 func print(msg ...string) {

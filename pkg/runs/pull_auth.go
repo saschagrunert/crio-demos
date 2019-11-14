@@ -1,0 +1,49 @@
+package runs
+
+import (
+	. "github.com/saschagrunert/crio-demos/pkg/demo"
+	"github.com/urfave/cli"
+)
+
+func PullAuth(ctx *cli.Context) {
+	Ensure(
+		S("sudo crictl rmi quay.io/crio/private-image"),
+		S(`sudo sed -i -E 's/(global_auth_file = )(.*)/\1""/' /etc/crio/crio.conf`),
+		S("sudo systemctl restart crio"),
+	)
+
+	d := New(
+		"Impage Pull Authentication",
+		"Please be aware that this demo does not work if the credentials are not valid",
+	)
+
+	d.Step(S(
+		"With the default configuration, CRI-O is not able to pull private images",
+	), S(
+		"sudo crictl pull quay.io/crio/private-image",
+	))
+
+	d.Step(S(
+		"But CRI-O is able to reuse the Docker authentication configuration as well",
+	), S(
+		`sudo sed -i -E 's;(global_auth_file = )(.*);\1"/home/sascha/.docker/config.json";' /etc/crio/crio.conf &&`,
+		"grep -B2 global_auth_file /etc/crio/crio.conf",
+	))
+
+	d.Step(S(
+		"The `global_auth_file` configuration does not support live configuration yet.",
+		"Which means that we have to restart CRI-O.",
+		"This is totally safe since CRI-O relies only on the state on disk.",
+	), S(
+		"sudo systemctl restart crio",
+	))
+
+	d.Step(S(
+		"If the credentials inside this file are valid,",
+		"then CRI-O can pull private images too",
+	), S(
+		"sudo crictl pull quay.io/crio/private-image",
+	))
+
+	d.Run(ctx)
+}
