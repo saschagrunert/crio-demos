@@ -61,6 +61,7 @@ func main() {
 		{Name: "7-pull-auth", Aliases: []string{"7"}, Action: runs.PullAuth},
 		{Name: "8-registries", Aliases: []string{"8"}, Action: runs.Registries},
 		{Name: "9-registry-mirrors", Aliases: []string{"9"}, Action: runs.RegistryMirrors},
+		{Name: "10-storage", Aliases: []string{"10"}, Action: runs.Storage},
 	}
 
 	// Catch interrupts

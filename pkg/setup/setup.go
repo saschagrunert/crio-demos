@@ -45,5 +45,6 @@ func cleanup() {
 		),
 		S("sudo systemctl reload crio"),
 		S("podman stop registry"),
+		S("echo | sudo tee /etc/containers/mounts.conf"),
 	)
 }

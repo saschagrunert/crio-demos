@@ -35,6 +35,7 @@ repository:
 7. [Pull Auth](pkg/runs/pull_auth.go)
 8. [Registries](pkg/runs/registries.go)
 9. [Registry Mirrors](pkg/runs/registry_mirrors.go)
+10. [Storage](pkg/runs/storage.go)
 
 ## How it works
 
