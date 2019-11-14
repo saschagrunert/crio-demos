@@ -48,7 +48,7 @@ func Interaction(ctx *cli.Context) {
 		"All crictl calls result in direct gRPC request to CRI-O",
 		"For example, `crictl ps` results in a `ListContainersRequest`.",
 	), S(
-		"sudo journalctl -u crio --since '1 minute ago' |",
+		"sudo journalctl -u crio --since '5 seconds ago' |",
 		"grep -Po '.*ListContainers(Request|Response){.*?}'",
 	))
 
@@ -56,7 +56,7 @@ func Interaction(ctx *cli.Context) {
 		"It looks like that the kubelet syncs periodically with CRI-O.",
 		"Let's check that",
 	), S(
-		"sudo journalctl -u crio --no-pager --since '10 seconds ago'",
+		"sudo journalctl -u crio --no-pager --since '5 seconds ago'",
 	))
 
 	d.Run(ctx)
