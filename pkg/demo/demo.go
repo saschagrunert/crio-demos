@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/gookit/color"
-	"github.com/sirupsen/logrus"
+	"github.com/pkg/errors"
 	"github.com/urfave/cli"
 )
 
@@ -23,8 +23,16 @@ type step struct {
 }
 
 func New(description ...string) *Demo {
-	for _, d := range description {
-		color.Cyan.Printf("# %s\n", d)
+	for i, d := range description {
+		if i == 0 {
+			color.Cyan.Println(d)
+			for range d {
+				color.Cyan.Print("=")
+			}
+			fmt.Printf("\n")
+		} else {
+			color.White.Darken().Println(d)
+		}
 	}
 	return &Demo{}
 }
@@ -37,38 +45,41 @@ func (d *Demo) Step(text []string, command []string) {
 	d.steps = append(d.steps, step{text, command})
 }
 
-func (d *Demo) Run(ctx *cli.Context) {
-	run := func() {
-		for i, step := range d.steps {
-			step.run(i+1, len(d.steps), ctx.GlobalBool("auto"))
+func (d *Demo) Run(ctx *cli.Context) error {
+	for i, step := range d.steps {
+		if ctx.GlobalInt("skip-steps") > i {
+			continue
+		}
+		if err := step.run(ctx, i+1, len(d.steps)); err != nil {
+			return err
 		}
 	}
-	if ctx.GlobalBool("continuously") {
-		for {
-			run()
-		}
-	} else {
-		run()
-	}
+	return nil
 }
 
-func Ensure(commands ...[]string) {
+func Ensure(commands ...string) {
 	for _, c := range commands {
-		command := strings.Join(c, " ")
-		cmd := exec.Command("bash", "-c", command)
+		cmd := exec.Command("bash", "-c", c)
 		cmd.Stderr = nil
 		cmd.Stdout = nil
 		_ = cmd.Run()
 	}
 }
 
-func (s *step) run(current, max int, auto bool) {
-	waitOrSleep(auto)
-	s.echo(current, max)
-	s.execute(auto)
+func (s *step) run(ctx *cli.Context, current, max int) error {
+	if err := waitOrSleep(ctx); err != nil {
+		return errors.Wrapf(err, "unable to run step: %v", s)
+	}
+	if len(s.text) > 0 {
+		s.echo(ctx, current, max)
+	}
+	if len(s.command) > 0 {
+		return s.execute(ctx)
+	}
+	return nil
 }
 
-func (s *step) echo(current, max int) {
+func (s *step) echo(ctx *cli.Context, current, max int) {
 	prepared := []string{" "}
 	for i, x := range s.text {
 		if i == len(s.text)-1 {
@@ -84,10 +95,10 @@ func (s *step) echo(current, max int) {
 			prepared = append(prepared, m)
 		}
 	}
-	print(prepared...)
+	print(ctx, prepared...)
 }
 
-func (s *step) execute(auto bool) {
+func (s *step) execute(ctx *cli.Context) error {
 	joinedCommand := strings.Join(s.command, " ")
 	cmd := exec.Command("bash", "-c", joinedCommand)
 
@@ -95,30 +106,35 @@ func (s *step) execute(auto bool) {
 	cmd.Stdout = os.Stdout
 
 	cmdString := color.Green.Sprintf("> %s", strings.Join(s.command, " \\\n    "))
-	print(cmdString)
-	waitOrSleep(auto)
-	_ = cmd.Run()
+	print(ctx, cmdString)
+	if err := waitOrSleep(ctx); err != nil {
+		return errors.Wrapf(err, "unable to execute step: %v", s)
+	}
+	return errors.Wrap(cmd.Run(), "step command failed")
 }
 
-func print(msg ...string) {
+func print(ctx *cli.Context, msg ...string) {
 	for _, m := range msg {
 		for _, c := range m {
-			time.Sleep(time.Duration(rand.Intn(40)) * time.Millisecond)
+			if !ctx.GlobalBool("immediate") {
+				time.Sleep(time.Duration(rand.Intn(40)) * time.Millisecond)
+			}
 			fmt.Printf("%c", c)
 		}
 		println()
 	}
 }
 
-func waitOrSleep(auto bool) {
-	if auto {
-		time.Sleep(3 * time.Second)
+func waitOrSleep(ctx *cli.Context) error {
+	if ctx.GlobalBool("auto") {
+		time.Sleep(ctx.GlobalDuration("auto-timeout"))
 	} else {
 		fmt.Print("…")
-		if _, err := bufio.NewReader(os.Stdin).ReadBytes('\n'); err != nil {
-			logrus.Fatalf("Unable to read input: %v", err)
+		_, err := bufio.NewReader(os.Stdin).ReadBytes('\n')
+		if err != nil {
+			return errors.Wrap(err, "unable to read newline")
 		}
-		// Move cursor up again
-		fmt.Printf("\x1b[1A")
+		fmt.Printf("\x1b[1A") // Move cursor up again
 	}
+	return nil
 }

@@ -2,12 +2,11 @@ package runs
 
 import (
 	. "github.com/saschagrunert/crio-demos/pkg/demo"
-	"github.com/saschagrunert/crio-demos/pkg/setup"
 	"github.com/urfave/cli"
 )
 
-func Networking(ctx *cli.Context) {
-	setup.EnsureInfoLogLevel()
+func Networking(ctx *cli.Context) error {
+	EnsureInfoLogLevel()
 
 	d := New(
 		"Networking",
@@ -16,7 +15,7 @@ func Networking(ctx *cli.Context) {
 
 	d.Step(S(
 		"If not configured, the default location for CRI-O to look for",
-		"Container Networking Interface (CNI) configurations is /etc/cni/net.d.",
+		"Container Networking Interface (CNI) configurations is `/etc/cni/net.d`.",
 		"For example, a simple bridge interface definition could look like this",
 	), S(
 		"jq . /etc/cni/net.d/10-crio-bridge.conf",
@@ -38,7 +37,7 @@ func Networking(ctx *cli.Context) {
 	))
 
 	d.Step(S(
-		"We now can directly examine the IP adresses of the pod via `crictl`",
+		"We now can directly examine the IP addresses of the pod via `crictl`",
 	), S(
 		"sudo crictl inspectp",
 		`$(sudo crictl pods -o json | jq -r '.items[] | select(.metadata.name == "alpine").id') |`,
@@ -69,5 +68,5 @@ func Networking(ctx *cli.Context) {
 		"grep -B2 manage_network_ns_lifecycle /etc/crio/crio.conf",
 	))
 
-	d.Run(ctx)
+	return d.Run(ctx)
 }

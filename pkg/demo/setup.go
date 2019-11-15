@@ -1,0 +1,46 @@
+package demo
+
+import (
+	"github.com/urfave/cli"
+)
+
+func EnsureInfoLogLevel() {
+	Ensure(
+		`sudo sed -i -E 's/(log_level = )(.*)/\1"info"/' /etc/crio/crio.conf`,
+		"sudo kill -HUP $(pgrep crio)",
+	)
+}
+
+func Before(ctx *cli.Context) error {
+	Ensure(
+		// Set log_level to debug
+		`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`,
+		"sudo kill -HUP $(pgrep crio)",
+
+		// Remove all events
+		"kubectl delete events --all",
+
+		// Remove dead pods
+		"sudo crictl rmp -f $(sudo crictl pods -s NotReady -q)",
+	)
+	cleanup()
+	return nil
+}
+
+func After(ctx *cli.Context) error {
+	cleanup()
+	return nil
+}
+
+func cleanup() {
+	Ensure(
+		"sudo pkill kubectl",
+		"kubectl delete pod nginx alpine",
+		"kubectl delete deploy nginx",
+		"sudo crictl rmi hello-world",
+		"[ -f /etc/containers/registries.conf.bak ] && sudo mv /etc/containers/registries.conf.bak /etc/containers/registries.conf",
+		"sudo systemctl reload crio",
+		"podman stop registry",
+		"echo | sudo tee /etc/containers/mounts.conf",
+	)
+}

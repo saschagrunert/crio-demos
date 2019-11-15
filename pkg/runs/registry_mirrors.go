@@ -22,13 +22,10 @@ func RegistryMirrors(ctx *cli.Context) error {
 		return err
 	}
 	Ensure(
-		S(
-			"[ ! -f "+r+".bak ] &&",
-			"sudo mv "+r+" "+r+".bak",
-		),
-		S("sudo cp "+f+" "+r),
-		S("rm "+f),
-		S("sudo systemctl reload crio"),
+		"[ ! -f "+r+".bak ] && sudo mv "+r+" "+r+".bak",
+		"sudo cp "+f+" "+r,
+		"rm "+f,
+		"sudo systemctl reload crio",
 	)
 
 	d := New(
@@ -68,12 +65,11 @@ func RegistryMirrors(ctx *cli.Context) error {
 	))
 
 	d.Step(S(
-		"The logs show us that the image got pulled sucessfully from the mirror",
+		"The logs show us that the image got pulled successfully from the mirror",
 	), S(
 		"sudo journalctl -u crio --since '1 minute ago' |",
 		`grep -Po "(reference rewritten from|Trying to pull|Downloading|GET).*"`,
 	))
 
-	d.Run(ctx)
-	return nil
+	return d.Run(ctx)
 }

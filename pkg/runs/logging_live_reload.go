@@ -2,12 +2,11 @@ package runs
 
 import (
 	. "github.com/saschagrunert/crio-demos/pkg/demo"
-	"github.com/saschagrunert/crio-demos/pkg/setup"
 	"github.com/urfave/cli"
 )
 
-func Logging(ctx *cli.Context) {
-	setup.EnsureInfoLogLevel()
+func Logging(ctx *cli.Context) error {
+	EnsureInfoLogLevel()
 
 	d := New(
 		"Logging and configuration reload",
@@ -19,7 +18,7 @@ func Logging(ctx *cli.Context) {
 		"The basic configuration file of CRI-O is available in",
 		"/etc/crio/crio.conf",
 	), S(
-		"cat /etc/crio/crio.conf",
+		"head -11 /etc/crio/crio.conf",
 	))
 
 	d.Step(S(
@@ -31,28 +30,29 @@ func Logging(ctx *cli.Context) {
 	d.Step(S(
 		"So we can set the `log_level` to a higher verbosity",
 	), S(
-		`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`,
+		`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf &&`,
+		"grep -B3 log_level /etc/crio/crio.conf",
 	))
 
 	d.Step(S(
 		"To reload CRI-O, we have to send a SIGHUP (hangup) to the process.",
 		"This can be done via `systemctl reload` for your convenience.",
 	), S(
-		"sudo systemctl reload crio",
+		"sudo systemctl reload -T crio",
 	))
 
 	d.Step(S(
 		"The logs indicate that the configuration has been reloaded correctly",
 	), S(
-		"sudo journalctl -u crio --since '1 minute ago' |",
-		"grep -B1 'log_level.*debug'",
+		"sudo journalctl -u crio --since '30 seconds ago' |",
+		"grep -B2 'log_level.*debug'",
 	))
 
 	d.Step(S(
-		"CRI-O now logs every request and response as seen in the first demo",
+		"CRI-O now logs every request and response in debug mode",
 	), S(
-		"sudo journalctl -u crio --no-pager --since '10 seconds ago'",
+		`sudo journalctl -u crio --no-pager -n 5 | cut -c-130`,
 	))
 
-	d.Run(ctx)
+	return d.Run(ctx)
 }

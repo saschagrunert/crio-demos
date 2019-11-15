@@ -5,15 +5,15 @@ import (
 	"github.com/urfave/cli"
 )
 
-func Interaction(ctx *cli.Context) {
+func Interaction(ctx *cli.Context) error {
 	d := New(
 		"Basic interactions with CRI-O",
-		"This demo shows basic interactions with CRI-O and",
-		"beteen the kubelet and CRI-O.",
+		"This demo shows basic interactions with CRI-O, the kubelet",
+		"and between both of them.",
 	)
 
 	d.Step(S(
-		"The recommended way of running CRI-O is as a systemd unit.",
+		"The recommended way of running CRI-O is within a systemd unit.",
 		"Let's verify that CRI-O is running as expected",
 	), S(
 		"sudo systemctl --no-pager status crio",
@@ -48,16 +48,17 @@ func Interaction(ctx *cli.Context) {
 		"All crictl calls result in direct gRPC request to CRI-O",
 		"For example, `crictl ps` results in a `ListContainersRequest`.",
 	), S(
-		"sudo journalctl -u crio --since '5 seconds ago' |",
+		"sudo journalctl -u crio --since '1 seconds ago' |",
 		"grep -Po '.*ListContainers(Request|Response){.*?}'",
 	))
 
 	d.Step(S(
-		"It looks like that the kubelet syncs periodically with CRI-O.",
-		"Let's check that",
+		"It looks like that the kubelet generally syncs periodically",
+		"with CRI-O.",
 	), S(
-		"sudo journalctl -u crio --no-pager --since '5 seconds ago'",
+		"sudo journalctl -u crio --no-pager --since '2 seconds ago' |",
+		"grep -Po 'time.*(Request|Response)'",
 	))
 
-	d.Run(ctx)
+	return d.Run(ctx)
 }

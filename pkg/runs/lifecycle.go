@@ -5,15 +5,16 @@ import (
 	"github.com/urfave/cli"
 )
 
-func LifeCycle(ctx *cli.Context) {
+func LifeCycle(ctx *cli.Context) error {
 	d := New(
 		"Life Cycle of a Kubernetes workload",
 		"This demo shows how CRI-O ensures the containers life-cycle",
+		"in conjunction with the kubelet.",
 	)
 
 	d.Step(S(
 		"Multiple steps are needed by CRI-O to run a container workload",
-		"First, let’s create a new pod printing out the date every 2 seconds",
+		"First, let’s create a new pod printing out the current date every 2 seconds",
 	), S(
 		"kubectl run --generator=run-pod/v1 --image=alpine alpine",
 		"-- sh -c 'while true; do date; sleep 2; done' &&",
@@ -23,13 +24,14 @@ func LifeCycle(ctx *cli.Context) {
 	d.Step(S(
 		"The first thing CRI-O has to accomplish is setting up the pod sandbox",
 	), S(
-		"sudo journalctl -u crio --since '5 minutes ago' | grep -P 'RunPodSandbox(Request|Response)'",
+		"sudo journalctl -u crio --since '5 minutes ago' |",
+		"grep -P 'RunPodSandbox(Request|Response)'",
 	))
 
 	d.Step(S(
-		"The RunPodSandboxRequest already contains a lots of information",
-		"for CRI-O to prepare an isolated environment for Kubernetes workloads",
-		"The sandbox can be examined via `crictl`, too",
+		"The `RunPodSandboxRequest` already contains a lot of information",
+		"for CRI-O to prepare an isolated environment for Kubernetes workloads.",
+		"The resulting sandbox can now be examined via `crictl`",
 	), S(
 		"sudo crictl inspectp",
 		`$(sudo crictl pods -o json | jq -r '.items[] | select(.metadata.name == "alpine").id') |`,
@@ -112,5 +114,5 @@ func LifeCycle(ctx *cli.Context) {
 		"sudo journalctl -u crio --since '2 minute ago' | grep -oE '(Stop|Remove).*'",
 	))
 
-	d.Run(ctx)
+	return d.Run(ctx)
 }
