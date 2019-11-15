@@ -9,12 +9,12 @@ func Interaction(ctx *cli.Context) error {
 	d := New(
 		"Basic interactions with CRI-O",
 		"This demo shows basic interactions with CRI-O, the kubelet",
-		"and between both of them.",
+		"and between both of them",
 	)
 
 	d.Step(S(
 		"The recommended way of running CRI-O is within a systemd unit.",
-		"Let's verify that CRI-O is running as expected",
+		"Let’s verify that CRI-O is running as expected",
 	), S(
 		"sudo systemctl --no-pager status crio",
 	))

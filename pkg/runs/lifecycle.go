@@ -9,7 +9,7 @@ func LifeCycle(ctx *cli.Context) error {
 	d := New(
 		"Life Cycle of a Kubernetes workload",
 		"This demo shows how CRI-O ensures the containers life-cycle",
-		"in conjunction with the kubelet.",
+		"in conjunction with the kubelet",
 	)
 
 	d.Step(S(

@@ -25,7 +25,7 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "1, interaction",
-			Usage: "this demo shows basic interactions with CRI-O, the kubelet and between both of them.",
+			Usage: "this demo shows basic interactions with CRI-O, the kubelet and between both of them",
 		},
 		cli.BoolFlag{
 			Name:  "2, logging",
@@ -33,7 +33,7 @@ func main() {
 		},
 		cli.BoolFlag{
 			Name:  "3, lifecycle",
-			Usage: "this demo shows how CRI-O ensures the containers life-cycle in conjunction with the kubelet.",
+			Usage: "this demo shows how CRI-O ensures the containers life-cycle in conjunction with the kubelet",
 		},
 		cli.BoolFlag{
 			Name:  "4, port-forward",
