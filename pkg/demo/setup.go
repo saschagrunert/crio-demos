@@ -11,7 +11,7 @@ func EnsureInfoLogLevel() {
 	)
 }
 
-func Before(ctx *cli.Context) error {
+func Setup(ctx *cli.Context) error {
 	Ensure(
 		// Set log_level to debug
 		`sudo sed -i -E 's/(log_level = )(.*)/\1"debug"/' /etc/crio/crio.conf`,
@@ -23,16 +23,10 @@ func Before(ctx *cli.Context) error {
 		// Remove dead pods
 		"sudo crictl rmp -f $(sudo crictl pods -s NotReady -q)",
 	)
-	cleanup()
-	return nil
+	return Cleanup(ctx)
 }
 
-func After(ctx *cli.Context) error {
-	cleanup()
-	return nil
-}
-
-func cleanup() {
+func Cleanup(ctx *cli.Context) error {
 	Ensure(
 		"sudo pkill kubectl",
 		"kubectl delete pod nginx alpine",
@@ -43,4 +37,5 @@ func cleanup() {
 		"podman stop registry",
 		"echo | sudo tee /etc/containers/mounts.conf",
 	)
+	return nil
 }

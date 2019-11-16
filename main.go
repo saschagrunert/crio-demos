@@ -20,8 +20,8 @@ func main() {
 	}
 	app.HideVersion = true
 	app.UseShortOptionHandling = true
-	app.Before = demo.Before
-	app.After = demo.After
+	app.Before = demo.Setup
+	app.After = demo.Cleanup
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "1, interaction",
@@ -64,7 +64,7 @@ func main() {
 			Usage: "this demo shows how container storage can be configured",
 		},
 		cli.BoolFlag{
-			Name:  "all",
+			Name:  "all, l",
 			Usage: "run all demos",
 		},
 		cli.BoolFlag{
@@ -123,8 +123,11 @@ func main() {
 		}
 
 		runDemos := func() error {
-			for _, demo := range demos {
-				if err := demo(ctx); err != nil {
+			for _, runDemo := range demos {
+				if err := runDemo(ctx); err != nil {
+					return err
+				}
+				if err := demo.Cleanup(ctx); err != nil {
 					return err
 				}
 			}
@@ -145,7 +148,7 @@ func main() {
 	signal.Notify(c, os.Interrupt)
 	go func() {
 		for range c {
-			_ = demo.After(nil)
+			_ = demo.Cleanup(nil)
 			os.Exit(0)
 		}
 	}()
