@@ -118,6 +118,9 @@ func main() {
 		if all || ctx.GlobalBool("registries") {
 			demos = append(demos, runs.Registries)
 		}
+		if all || ctx.GlobalBool("registry-mirrors") {
+			demos = append(demos, runs.RegistryMirrors)
+		}
 		if all || ctx.GlobalBool("storage") {
 			demos = append(demos, runs.Storage)
 		}

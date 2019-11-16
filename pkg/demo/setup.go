@@ -31,9 +31,9 @@ func Cleanup(ctx *cli.Context) error {
 		"sudo pkill kubectl",
 		"kubectl delete pod nginx alpine",
 		"kubectl delete deploy nginx",
-		"sudo crictl rmi hello-world",
+		"sudo crictl rmi hello-world nginx",
 		"[ -f /etc/containers/registries.conf.bak ] && sudo mv /etc/containers/registries.conf.bak /etc/containers/registries.conf",
-		"sudo systemctl reload crio",
+		"sudo systemctl restart crio",
 		"podman stop registry",
 		"echo | sudo tee /etc/containers/mounts.conf",
 	)
