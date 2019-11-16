@@ -31,7 +31,7 @@ func Storage(ctx *cli.Context) error {
 	), S(
 		"kubectl run --generator=run-pod/v1 --image=alpine alpine",
 		"-- sh -c 'while true; do ls -lah /mnt; sleep 2; done' &&",
-		"kubectl wait pod/alpine --for=condition=ready &&",
+		"kubectl wait pod/alpine --for=condition=ready --timeout=2m &&",
 		"kubectl logs alpine",
 	))
 

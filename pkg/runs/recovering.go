@@ -15,7 +15,7 @@ func Recovering(ctx *cli.Context) error {
 		"Let’s start with a fresh nginx deployment",
 	), S(
 		"kubectl create deployment --image=nginx nginx &&",
-		"kubectl wait deploy/nginx --for=condition=available",
+		"kubectl wait deploy/nginx --for=condition=available --timeout=2m",
 	))
 
 	d.Step(S(

@@ -16,7 +16,7 @@ func PortForward(ctx *cli.Context) error {
 		"In our case an example nginx server",
 	), S(
 		"kubectl run --generator=run-pod/v1 --image=nginx nginx &&",
-		"kubectl wait pod/nginx --for=condition=ready",
+		"kubectl wait pod/nginx --for=condition=ready --timeout=2m",
 	))
 
 	d.Step(S(
