@@ -38,7 +38,7 @@ func RegistryMirrors(ctx *cli.Context) error {
 		"where access to the internet is limited.",
 		"A registry mirror can be configured like this",
 	), S(
-		`grep -A4 '^\[\[registry\]\]' `+r,
+		`grep -A5 '^\[\[registry\]\]' `+r,
 	))
 
 	d.Step(S(
