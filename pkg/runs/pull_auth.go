@@ -40,7 +40,7 @@ func PullAuth(ctx *cli.Context) error {
 		"Which means that we have to restart CRI-O.",
 		"This is totally safe, since CRI-O relies only on the state on disk.",
 	), S(
-		"sudo systemctl restart -T crio",
+		"sudo systemctl restart crio",
 	))
 
 	d.Step(S(

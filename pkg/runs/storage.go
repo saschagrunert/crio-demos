@@ -22,7 +22,7 @@ func Storage(ctx *cli.Context) error {
 		"We can also define mounts which should apply for every container",
 	), S(
 		"echo $(pwd):/mnt | sudo tee /etc/containers/mounts.conf &&",
-		"sudo systemctl restart -T crio",
+		"sudo systemctl restart crio",
 	))
 
 	d.Step(S(

@@ -38,7 +38,7 @@ func Logging(ctx *cli.Context) error {
 		"To reload CRI-O, we have to send a SIGHUP (hangup) to the process.",
 		"This can be done via `systemctl reload` for your convenience.",
 	), S(
-		"sudo systemctl reload -T crio",
+		"sudo systemctl reload crio",
 	))
 
 	d.Step(S(
