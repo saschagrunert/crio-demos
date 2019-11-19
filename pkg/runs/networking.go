@@ -57,7 +57,7 @@ func Networking(ctx *cli.Context) error {
 	d.Step(S(
 		"If we delete the workload again, CRI-O takes care of removing the allocated IPs",
 	), S(
-		"kubectl delete pod alpine &&",
+		"kubectl delete pod alpine --now &&",
 		"sudo journalctl -u crio --since '3 minutes ago' | grep -A1 'Got pod network'",
 	))
 

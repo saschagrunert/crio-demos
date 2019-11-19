@@ -29,8 +29,8 @@ func Setup(ctx *cli.Context) error {
 func Cleanup(ctx *cli.Context) error {
 	Ensure(
 		"sudo pkill kubectl",
-		"kubectl delete pod nginx alpine",
-		"kubectl delete deploy nginx",
+		"kubectl delete pod nginx alpine --now",
+		"kubectl delete deploy nginx --now",
 		"sudo crictl rmi hello-world nginx quay.io/crio/private-image",
 		"[ -f /etc/containers/registries.conf.bak ] && sudo mv /etc/containers/registries.conf.bak /etc/containers/registries.conf",
 		"sudo systemctl restart crio",

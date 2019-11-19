@@ -110,7 +110,7 @@ func LifeCycle(ctx *cli.Context) error {
 	d.Step(S(
 		"If we delete the workload again, CRI-O takes care of removing the system resources",
 	), S(
-		"kubectl delete pod alpine &&",
+		"kubectl delete pod alpine --now &&",
 		"sudo journalctl -u crio --since '2 minute ago' | grep -oE '(Stop|Remove).*'",
 	))
 
