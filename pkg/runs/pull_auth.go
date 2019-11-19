@@ -15,7 +15,7 @@ func PullAuth(ctx *cli.Context) error {
 	)
 
 	d := New(
-		"Impage Pull Authentication",
+		"Image Pull Authentication",
 		"This demo shows how registry authentication works in CRI-O",
 		"(Please be aware that this demo does not work if the credentials",
 		"are not valid)",
