@@ -27,6 +27,14 @@ func Interaction(ctx *cli.Context) error {
 	))
 
 	d.Step(S(
+		"We can use the tool `crictl` to interact with the Container Runtime ",
+		"Interface (CRI). To let this work out of the box with CRI-O, we",
+		"just have to adapt the configuration file `/etc/crictl.yaml`.",
+	), S(
+		"cat /etc/crictl.yaml",
+	))
+
+	d.Step(S(
 		"We should be now able to interact with CRI-O via `crictl`",
 	), S(
 		"sudo crictl version",
