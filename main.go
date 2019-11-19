@@ -130,7 +130,7 @@ func main() {
 				if err := runDemo(ctx); err != nil {
 					return err
 				}
-				if err := demo.Cleanup(ctx); err != nil {
+				if err := demo.Setup(ctx); err != nil {
 					return err
 				}
 			}
