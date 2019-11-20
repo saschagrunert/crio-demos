@@ -45,7 +45,7 @@ func Logging(ctx *cli.Context) error {
 		"The logs indicate that the configuration has been reloaded correctly",
 	), S(
 		"sudo journalctl -u crio --since '30 seconds ago' |",
-		"grep -B2 'log_level.*debug'",
+		"grep -A3 reloading",
 	))
 
 	d.Step(S(
