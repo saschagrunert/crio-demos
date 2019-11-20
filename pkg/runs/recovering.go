@@ -50,7 +50,7 @@ func Recovering(ctx *cli.Context) error {
 	d.Step(S(
 		"Then the kubelet will remove it again",
 	), S(
-		"sudo journalctl -u kubelet --since '1minute ago' | grep unwanted",
+		"sudo journalctl -u kubelet --since '1 minute ago' | grep unwanted",
 	))
 
 	return d.Run(ctx)
