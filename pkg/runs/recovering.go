@@ -28,7 +28,7 @@ func Recovering(ctx *cli.Context) error {
 		"Then, the container monitor `conmon` will notice that",
 		"something bad happened and CRI-O removes the workload.",
 	), S(
-		"sudo journalctl -u crio --since '15 seconds ago' | grep -A1 exited",
+		"sudo journalctl -u crio --since '30 seconds ago' | grep exited",
 	))
 
 	d.Step(S(
